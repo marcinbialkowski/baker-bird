@@ -1,0 +1,35 @@
+{
+  "name": "baker-bird",
+  "version": "1.0.0",
+  "author": "Marcin Bialkowski",
+  "license": "MIT",
+  "description": "TypeScript implementation of the Baker-Bird algorithm.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marcinbialkowski/baker-bird"
+  },
+  "main": "dist/index.js",
+  "type": "module",
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rm -rf dist",
+    "format": "prettier . --write",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@tsconfig/node-lts": "^20.1.0",
+    "@tsconfig/strictest": "^2.0.2",
+    "@typescript-eslint/eslint-plugin": "^6.16.0",
+    "@typescript-eslint/parser": "^6.16.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^8.0.3",
+    "prettier": "3.1.1",
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.1"
+  }
+}
