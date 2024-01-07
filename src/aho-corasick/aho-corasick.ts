@@ -1,18 +1,22 @@
 import { toOccurrences } from './aho-corasick.helpers.js';
 import { Node } from './aho-corasick.node.js';
-import { type Occurrence } from './aho-corasick.types.js';
+import {
+  type Occurrence,
+  type Pattern,
+  type Text,
+} from './aho-corasick.types.js';
 
 export class AhoCorasick {
   private readonly terminalNodeIds: number[];
   private lastNodeId = 0;
   private root = new Node(this.lastNodeId, '', null);
 
-  constructor(patterns: string[]) {
+  constructor(patterns: Pattern[]) {
     this.terminalNodeIds = this.buildTrie(patterns);
     this.buildTransitions();
   }
 
-  match = (text: string) => {
+  match = (text: Text) => {
     const occurrences: Occurrence[] = [];
     const visitedNodeIds: number[] = [];
     let currentNode = this.root;
@@ -28,9 +32,9 @@ export class AhoCorasick {
 
   getTerminalNodeIds = () => this.terminalNodeIds;
 
-  private buildTrie = (patterns: string[]) => patterns.map(this.addPattern);
+  private buildTrie = (patterns: Pattern[]) => patterns.map(this.addPattern);
 
-  private addPattern = (pattern: string, patternIndex: number) => {
+  private addPattern = (pattern: Pattern, patternIndex: number) => {
     if (pattern.length === 0) {
       throw new Error('Pattern cannot be an empty string');
     }

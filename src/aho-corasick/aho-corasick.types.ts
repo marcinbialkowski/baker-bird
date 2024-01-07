@@ -1,8 +1,9 @@
-export interface Pattern {
-  pattern: string;
-  patternIndex: number;
-}
+export type Text = string;
 
-export interface Occurrence extends Pattern {
+export type Pattern = string;
+
+export interface Occurrence {
+  pattern: Pattern;
+  patternIndex: number;
   position: number;
 }
