@@ -17,9 +17,9 @@ export class AhoCorasick {
     const visitedNodeIds: number[] = [];
     let currentNode = this.root;
 
-    for (const [index, char] of [...text].entries()) {
+    for (const [position, char] of [...text].entries()) {
       currentNode = currentNode.getTransition(char) ?? this.root;
-      occurrences.push(...toOccurrences(currentNode, index));
+      occurrences.push(...toOccurrences(currentNode, position));
       visitedNodeIds.push(currentNode.id);
     }
 
@@ -35,7 +35,7 @@ export class AhoCorasick {
       throw new Error('Pattern cannot be an empty string');
     }
 
-    let index = 0;
+    let position = 0;
     let currentNode = this.root;
 
     for (const char of pattern) {
@@ -45,10 +45,10 @@ export class AhoCorasick {
       }
 
       currentNode = child;
-      index += 1;
+      position += 1;
     }
 
-    for (const char of pattern.substring(index)) {
+    for (const char of pattern.substring(position)) {
       currentNode = this.addNode(char, currentNode);
     }
 

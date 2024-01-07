@@ -1,5 +1,8 @@
-export interface Occurrence {
+export interface Pattern {
   pattern: string;
-  patternNumber: number;
-  index: number;
+  patternIndex: number;
+}
+
+export interface Occurrence extends Pattern {
+  position: number;
 }

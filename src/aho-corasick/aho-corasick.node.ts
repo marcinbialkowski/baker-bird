@@ -1,7 +1,9 @@
+import { Pattern } from './aho-corasick.types.js';
+
 export class Node {
   private children: Record<string, Node> = {};
   private transitions: Record<string, Node> = {};
-  private patterns: { pattern: string; index: number }[] = [];
+  private patterns: Pattern[] = [];
 
   constructor(
     public readonly id: number,
@@ -11,8 +13,8 @@ export class Node {
 
   getPatterns = () => this.patterns;
 
-  addPattern = (pattern: string, index: number) => {
-    this.patterns.push({ index, pattern });
+  addPattern = (pattern: string, patternIndex: number) => {
+    this.patterns.push({ pattern, patternIndex });
   };
 
   getChildren = () => Object.values(this.children);

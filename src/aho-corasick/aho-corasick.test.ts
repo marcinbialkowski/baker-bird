@@ -10,11 +10,11 @@ describe('AhoCorasick', () => {
     const { occurrences } = ahoCorasick.match(text);
 
     expect(occurrences).toStrictEqual([
-      { pattern: 'ab', patternNumber: 2, index: 1 },
-      { pattern: 'abc', patternNumber: 1, index: 1 },
-      { pattern: 'c', patternNumber: 3, index: 3 },
-      { pattern: 'c', patternNumber: 3, index: 7 },
-      { pattern: 'test', patternNumber: 0, index: 8 },
+      { pattern: 'ab', patternIndex: 2, position: 1 },
+      { pattern: 'abc', patternIndex: 1, position: 1 },
+      { pattern: 'c', patternIndex: 3, position: 3 },
+      { pattern: 'c', patternIndex: 3, position: 7 },
+      { pattern: 'test', patternIndex: 0, position: 8 },
     ]);
   });
 
