@@ -1,4 +1,4 @@
-import { Pattern } from './aho-corasick.types.js';
+import { type Pattern } from './aho-corasick.types.js';
 
 export class Node {
   private children: Record<string, Node> = {};

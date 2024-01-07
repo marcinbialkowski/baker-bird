@@ -1,9 +1,9 @@
 import { toOccurrences } from './aho-corasick.helpers.js';
-import { Occurrence } from './aho-corasick.types.js';
 import { Node } from './aho-corasick.node.js';
+import { type Occurrence } from './aho-corasick.types.js';
 
 export class AhoCorasick {
-  private terminalNodeIds: number[];
+  private readonly terminalNodeIds: number[];
   private lastNodeId = 0;
   private root = new Node(this.lastNodeId, '', null);
 

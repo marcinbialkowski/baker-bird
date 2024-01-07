@@ -1,5 +1,5 @@
-import { Occurrence } from './aho-corasick.types.js';
-import { Node } from './aho-corasick.node.js';
+import { type Occurrence } from './aho-corasick.types.js';
+import { type Node } from './aho-corasick.node.js';
 
 export const toOccurrences = (node: Node, position: number): Occurrence[] =>
   node.getPatterns().map(({ pattern, patternIndex }) => ({
