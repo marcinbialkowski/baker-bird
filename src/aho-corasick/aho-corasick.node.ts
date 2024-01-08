@@ -1,38 +1,38 @@
 import { type Occurrence, type Pattern } from './aho-corasick.types.js';
 
-export class Node {
-  private children: Record<string, Node> = {};
-  private transitions: Record<string, Node> = {};
-  private patterns: Pick<Occurrence, 'pattern' | 'patternIndex'>[] = [];
+export class Node<Char> {
+  private children: Map<Char, Node<Char>> = new Map();
+  private transitions: Map<Char, Node<Char>> = new Map();
+  private patterns: Pick<Occurrence<Char>, 'pattern' | 'patternIndex'>[] = [];
 
   constructor(
     public readonly id: number,
-    public readonly char: string,
-    public readonly parent: Node | null,
+    public readonly char: Char | null,
+    public readonly parent: Node<Char> | null,
   ) {}
 
   getPatterns = () => this.patterns;
 
-  addPattern = (pattern: Pattern, patternIndex: number) => {
+  addPattern = (pattern: Pattern<Char>, patternIndex: number) => {
     this.patterns.push({ pattern, patternIndex });
   };
 
-  getChildren = () => Object.values(this.children);
+  getChildren = () => this.children.values();
 
-  getChild = (char: string) => this.children[char];
+  getChild = (char: Char) => this.children.get(char);
 
-  setChild = (char: string, node: Node) => {
-    this.children[char] = node;
+  setChild = (char: Char, node: Node<Char>) => {
+    this.children.set(char, node);
   };
 
-  getTransition = (char: string) => this.transitions[char];
+  getTransition = (char: Char) => this.transitions.get(char);
 
-  setTransition = (char: string, node: Node) => {
-    this.transitions[char] = node;
+  setTransition = (char: Char, node: Node<Char>) => {
+    this.transitions.set(char, node);
   };
 
-  setTransitionsFrom = (node: Node) => {
-    this.transitions = { ...node.transitions, ...node.children };
+  setTransitionsFrom = (node: Node<Char>) => {
+    this.transitions = new Map([...node.transitions, ...node.children]);
     this.patterns.push(...node.patterns);
   };
 }

@@ -6,22 +6,22 @@ import {
   type Text,
 } from './aho-corasick.types.js';
 
-export class AhoCorasick {
+export class AhoCorasick<Char> {
   private readonly terminalNodeIds: number[];
   private lastNodeId = 0;
-  private root = new Node(this.lastNodeId, '', null);
+  private root = new Node<Char>(this.lastNodeId, null, null);
 
-  constructor(patterns: Pattern[]) {
+  constructor(patterns: Pattern<Char>[]) {
     this.terminalNodeIds = this.buildTrie(patterns);
     this.buildTransitions();
   }
 
-  match = (text: Text) => {
-    const occurrences: Occurrence[] = [];
+  match = (text: Text<Char>) => {
+    const occurrences: Occurrence<Char>[] = [];
     const visitedNodeIds: number[] = [];
     let currentNode = this.root;
 
-    for (const [position, char] of [...text].entries()) {
+    for (const [position, char] of text.entries()) {
       currentNode = currentNode.getTransition(char) ?? this.root;
       occurrences.push(...toOccurrences(currentNode, position));
       visitedNodeIds.push(currentNode.id);
@@ -32,11 +32,12 @@ export class AhoCorasick {
 
   getTerminalNodeIds = () => this.terminalNodeIds;
 
-  private buildTrie = (patterns: Pattern[]) => patterns.map(this.addPattern);
+  private buildTrie = (patterns: Pattern<Char>[]) =>
+    patterns.map(this.addPattern);
 
-  private addPattern = (pattern: Pattern, patternIndex: number) => {
+  private addPattern = (pattern: Pattern<Char>, patternIndex: number) => {
     if (pattern.length === 0) {
-      throw new Error('Pattern cannot be an empty string');
+      throw new Error("Pattern's length must be greater than 0");
     }
 
     let position = 0;
@@ -52,7 +53,7 @@ export class AhoCorasick {
       position += 1;
     }
 
-    for (const char of pattern.substring(position)) {
+    for (const char of pattern.slice(position)) {
       currentNode = this.addNode(char, currentNode);
     }
 
@@ -61,7 +62,7 @@ export class AhoCorasick {
     return currentNode.id;
   };
 
-  private addNode(char: string, parent: Node) {
+  private addNode(char: Char, parent: Node<Char>) {
     this.lastNodeId += 1;
     const node = new Node(this.lastNodeId, char, parent);
     parent.setChild(char, node);
@@ -77,7 +78,7 @@ export class AhoCorasick {
       queue.push(...currentNode.getChildren());
 
       const parent = currentNode.parent!;
-      const charFromParent = currentNode.char;
+      const charFromParent = currentNode.char!;
       const prevNode = parent.getTransition(charFromParent) ?? this.root;
 
       parent.setTransition(charFromParent, currentNode);

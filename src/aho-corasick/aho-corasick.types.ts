@@ -1,9 +1,9 @@
-export type Text = string;
+export type Text<Char> = Char[];
 
-export type Pattern = string;
+export type Pattern<Char> = Char[];
 
-export interface Occurrence {
-  pattern: Pattern;
+export interface Occurrence<Char> {
+  pattern: Pattern<Char>;
   patternIndex: number;
   position: number;
 }
