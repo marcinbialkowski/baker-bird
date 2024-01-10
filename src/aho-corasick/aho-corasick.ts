@@ -1,6 +1,7 @@
-import { toOccurrences } from './aho-corasick.helpers.js';
+import { toOccurrences, validate } from './aho-corasick.helpers.js';
 import { Node } from './aho-corasick.node.js';
 import {
+  type MatchResult,
   type Occurrence,
   type Pattern,
   type Text,
@@ -16,7 +17,7 @@ export class AhoCorasick<Char> {
     this.buildTransitions();
   }
 
-  match = (text: Text<Char>) => {
+  match = (text: Text<Char>): MatchResult<Char> => {
     const occurrences: Occurrence<Char>[] = [];
     const visitedNodeIds: number[] = [];
     let currentNode = this.root;
@@ -36,9 +37,7 @@ export class AhoCorasick<Char> {
     patterns.map(this.addPattern);
 
   private addPattern = (pattern: Pattern<Char>, patternIndex: number) => {
-    if (pattern.length === 0) {
-      throw new Error("Pattern's length must be greater than 0");
-    }
+    validate(pattern);
 
     let position = 0;
     let currentNode = this.root;

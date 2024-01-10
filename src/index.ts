@@ -1,1 +1,1 @@
-export { BakerBird } from './baker-bird/baker-bird.js';
+export * from './baker-bird/index.js';

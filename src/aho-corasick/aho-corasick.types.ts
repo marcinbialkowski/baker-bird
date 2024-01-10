@@ -7,3 +7,8 @@ export interface Occurrence<Char> {
   patternIndex: number;
   position: number;
 }
+
+export interface MatchResult<Char> {
+  occurrences: Occurrence<Char>[];
+  visitedNodeIds: number[];
+}
