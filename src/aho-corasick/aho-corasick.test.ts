@@ -82,14 +82,14 @@ describe('AhoCorasick', () => {
   });
 
   it('matches patterns composed of whole words', () => {
-    const sentencePatterns = [
+    const wordsPatterns = [
       ['we', 'are'],
       ['you', 'are'],
     ];
-    const sentenceText = ['I', 'am', 'you', 'are', 'we', 'are'];
+    const wordsText = ['I', 'am', 'you', 'are', 'we', 'are'];
 
-    const ahoCorasick = new AhoCorasick(sentencePatterns);
-    const { occurrences, visitedNodeIds } = ahoCorasick.match(sentenceText);
+    const ahoCorasick = new AhoCorasick(wordsPatterns);
+    const { occurrences, visitedNodeIds } = ahoCorasick.match(wordsText);
 
     expect(occurrences).toStrictEqual([
       { pattern: ['you', 'are'], patternIndex: 1, position: 2 },

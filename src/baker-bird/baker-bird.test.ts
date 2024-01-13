@@ -19,8 +19,8 @@ describe('BakerBird', () => {
     const occurrences = bakerBird.match(text);
 
     expect(occurrences).toStrictEqual([
-      { pattern, row: 1, col: 0 },
-      { pattern, row: 2, col: 1 },
+      { pattern, col: 0, row: 1 },
+      { pattern, col: 1, row: 2 },
     ]);
   });
 
@@ -75,5 +75,44 @@ describe('BakerBird', () => {
     expect(() =>
       new BakerBird(pattern).match([['a'], ['a', 'b']]),
     ).toThrowError('Number of elements in each row must be the same');
+  });
+
+  it('matches numeric pattern', () => {
+    const numericPattern = [
+      [1, 2],
+      [2, 1],
+    ];
+    const numericText = [
+      [0, 1, 2],
+      [1, 2, 1],
+      [2, 1, 0],
+    ];
+
+    const bakerBird = new BakerBird(numericPattern);
+    const occurrences = bakerBird.match(numericText);
+
+    expect(occurrences).toStrictEqual([
+      { pattern: numericPattern, col: 0, row: 1 },
+      { pattern: numericPattern, col: 1, row: 0 },
+    ]);
+  });
+
+  it('matches pattern composed of whole words', () => {
+    const wordsPattern = [
+      ['you', 'are'],
+      ['we', 'are'],
+    ];
+    const wordsText = [
+      ['I', 'am', 'here'],
+      ['you', 'are', 'there'],
+      ['we', 'are', 'here and there'],
+    ];
+
+    const bakerBird = new BakerBird(wordsPattern);
+    const occurrences = bakerBird.match(wordsText);
+
+    expect(occurrences).toStrictEqual([
+      { pattern: wordsPattern, col: 0, row: 1 },
+    ]);
   });
 });

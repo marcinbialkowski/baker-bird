@@ -24,6 +24,6 @@ export const toOccurrences = <Char>(
 ) =>
   matchResult.occurrences.map((occurrence) => ({
     pattern,
-    row: occurrence.position,
     col: columnIndex,
+    row: occurrence.position,
   }));
