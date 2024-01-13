@@ -1,9 +1,11 @@
 import { type MatchResult as AhoCorasickMatchResult } from '../aho-corasick/index.js';
 import { type Pattern } from './baker-bird.types.js';
 
+export const toDimension = <Char>(matrix: Char[][]) =>
+  [matrix.length, matrix[0]?.length ?? 0] as const;
+
 export const validate = <Char>(matrix: Char[][]) => {
-  const rowsCount = matrix.length;
-  const colsCount = matrix[0]?.length;
+  const [rowsCount, colsCount] = toDimension(matrix);
 
   if (rowsCount === 0 || colsCount === 0) {
     throw new Error('Number of rows and columns must be greater than 0');

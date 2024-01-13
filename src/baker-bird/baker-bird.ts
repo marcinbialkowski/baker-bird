@@ -1,5 +1,10 @@
 import { AhoCorasick } from '../aho-corasick/index.js';
-import { toOccurrences, transpose, validate } from './baker-bird.helpers.js';
+import {
+  toDimension,
+  toOccurrences,
+  transpose,
+  validate,
+} from './baker-bird.helpers.js';
 import {
   type MatchResult,
   type Pattern,
@@ -20,7 +25,7 @@ export class BakerBird<Char> {
     const visitedNodeIds = text.map(
       (row) => this.ahoCorasick.match(row).visitedNodeIds,
     );
-    const patternWidth = this.pattern[0]?.length ?? 0;
+    const [, patternWidth] = toDimension(this.pattern);
 
     const nodeIdsAhoCorasick = new AhoCorasick([
       this.ahoCorasick.getTerminalNodeIds(),
