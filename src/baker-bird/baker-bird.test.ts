@@ -184,4 +184,25 @@ describe('BakerBird', () => {
       'All patterns must be of the same dimension',
     );
   });
+
+  it('allows to perform consecutive matches on different texts', () => {
+    const pattern1 = [['a']];
+    const pattern2 = [['b']];
+    const bakerBird = new BakerBird([pattern1, pattern2]);
+
+    const occurrences1 = bakerBird.match([
+      ['a', 'b'],
+      ['c', 'd'],
+    ]);
+    const occurrences2 = bakerBird.match([['e', 'b', 'f', 'a']]);
+
+    expect(occurrences1).toStrictEqual([
+      { pattern: pattern1, patternIndex: 0, col: 0, row: 0 },
+      { pattern: pattern2, patternIndex: 1, col: 1, row: 0 },
+    ]);
+    expect(occurrences2).toStrictEqual([
+      { pattern: pattern2, patternIndex: 1, col: 1, row: 0 },
+      { pattern: pattern1, patternIndex: 0, col: 3, row: 0 },
+    ]);
+  });
 });
