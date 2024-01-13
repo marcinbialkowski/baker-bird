@@ -1,4 +1,4 @@
-import { toOccurrences, validate } from './aho-corasick.helpers.js';
+import { toOccurrences, validatePattern } from './aho-corasick.helpers.js';
 import { Node } from './aho-corasick.node.js';
 import {
   type MatchResult,
@@ -37,7 +37,7 @@ export class AhoCorasick<Char> {
     patterns.map(this.addPattern);
 
   private addPattern = (pattern: Pattern<Char>, patternIndex: number) => {
-    validate(pattern);
+    validatePattern(pattern);
 
     let position = 0;
     let currentNode = this.root;

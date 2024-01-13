@@ -1,7 +1,7 @@
 import { type Occurrence, type Pattern } from './aho-corasick.types.js';
 import { type Node } from './aho-corasick.node.js';
 
-export const validate = <Char>(pattern: Pattern<Char>) => {
+export const validatePattern = <Char>(pattern: Pattern<Char>) => {
   if (pattern.length === 0) {
     throw new Error("Pattern's length must be greater than 0");
   }

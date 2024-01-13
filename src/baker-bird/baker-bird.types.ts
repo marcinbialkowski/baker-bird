@@ -1,6 +1,8 @@
-export type Text<Char> = Char[][];
+export type Matrix<Char> = Char[][];
 
-export type Pattern<Char> = Char[][];
+export type Text<Char> = Matrix<Char>;
+
+export type Pattern<Char> = Matrix<Char>;
 
 export interface Occurrence<Char> {
   pattern: Pattern<Char>;

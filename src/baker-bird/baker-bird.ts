@@ -3,7 +3,8 @@ import {
   toDimension,
   toOccurrences,
   transpose,
-  validate,
+  validatePatterns,
+  validateText,
 } from './baker-bird.helpers.js';
 import {
   type MatchResult,
@@ -13,32 +14,43 @@ import {
 
 export class BakerBird<Char> {
   private readonly ahoCorasick: AhoCorasick<Char>;
+  private readonly patternsDimension: ReturnType<typeof toDimension>;
 
-  constructor(private readonly pattern: Pattern<Char>) {
-    validate(pattern);
-    this.ahoCorasick = new AhoCorasick(pattern);
+  constructor(private readonly patterns: Pattern<Char>[]) {
+    validatePatterns(patterns);
+
+    this.ahoCorasick = new AhoCorasick(patterns.flat());
+    this.patternsDimension = toDimension(this.patterns[0] ?? []);
   }
 
   match = (text: Text<Char>): MatchResult<Char> => {
-    validate(text);
+    validateText(text);
 
-    const visitedNodeIds = text.map(
-      (row) => this.ahoCorasick.match(row).visitedNodeIds,
-    );
-    const [, patternWidth] = toDimension(this.pattern);
-
-    const nodeIdsAhoCorasick = new AhoCorasick([
-      this.ahoCorasick.getTerminalNodeIds(),
-    ]);
+    const visitedNodeIds = text.map(this.toVisitedNodeIds);
+    const nodeIdsAhoCorasick = this.buildNodeIdsAhoCorasick();
 
     return transpose(visitedNodeIds)
-      .slice(patternWidth - 1)
+      .slice(this.patternsDimension.colsCount - 1)
       .flatMap((column, columnIndex) =>
         toOccurrences(
           nodeIdsAhoCorasick.match(column),
-          this.pattern,
+          this.patterns,
           columnIndex,
         ),
       );
+  };
+
+  private toVisitedNodeIds = (row: Text<Char>[number]) =>
+    this.ahoCorasick.match(row).visitedNodeIds;
+
+  private buildNodeIdsAhoCorasick = () => {
+    const terminalNodeIds = this.ahoCorasick.getTerminalNodeIds();
+    const { rowsCount } = this.patternsDimension;
+
+    return new AhoCorasick(
+      this.patterns.map((_, i) =>
+        terminalNodeIds.slice(i * rowsCount, i * rowsCount + rowsCount),
+      ),
+    );
   };
 }
