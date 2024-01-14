@@ -15,6 +15,7 @@
     "build": "tsc",
     "prebuild": "rm -rf dist",
     "format": "prettier . --write",
+    "format:check": "prettier . --check",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",

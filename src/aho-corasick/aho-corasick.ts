@@ -61,13 +61,13 @@ export class AhoCorasick<Char> {
     return currentNode.id;
   };
 
-  private addNode(char: Char, parent: Node<Char>) {
+  private addNode = (char: Char, parent: Node<Char>) => {
     this.lastNodeId += 1;
     const node = new Node(this.lastNodeId, char, parent);
     parent.setChild(char, node);
 
     return node;
-  }
+  };
 
   private buildTransitions = () => {
     const queue = [...this.root.getChildren()];
