@@ -6,6 +6,7 @@ export type Pattern<Char> = Matrix<Char>;
 
 export interface Occurrence<Char> {
   pattern: Pattern<Char>;
+  patternIndex: number;
   col: number;
   row: number;
 }
