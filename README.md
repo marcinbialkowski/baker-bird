@@ -13,6 +13,9 @@ The Baker-Bird algorithm is useful in various scenarios, including:
 
 ## Usage
 
+> [!NOTE]
+> This package is currently not published on npm. However, if you find this library useful and would like it to be available on npm, please let me know by opening an issue.
+
 ```ts
 const pattern1 = [
   ['a', 'b'],
@@ -55,7 +58,7 @@ This approach ensures that patterns are pre-processed only once.
 Each occurrence in the result array is of the following type:
 
 ```ts
-{
+interface Occurrence<Char> {
   pattern: Char[];
   patternIndex: number;
   col: number;
